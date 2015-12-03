@@ -40,19 +40,17 @@ func ChangeDefaultCfgfileFlag(beatName string) error {
 
 // Read reads the configuration from a yaml file into the given interface structure.
 // In case path is not set this method reads from the default configuration file for the beat.
-func Read(out interface{}, path string) error {
-
-	if path == "" {
-		path = *configfile
-	}
+func ReadConfigFile(out interface{}, path string) error {
 
 	filecontent, err := ioutil.ReadFile(path)
 
 	if err != nil {
 		return fmt.Errorf("Failed to read %s: %v. Exiting.", path, err)
 	}
-	if err = yaml.Unmarshal(filecontent, out); err != nil {
-		return fmt.Errorf("YAML config parsing failed on %s: %v. Exiting.", path, err)
+
+	err = loadConfig(out, filecontent)
+	if (err != nil) {
+		return fmt.Errorf("Configuration error: %v. Exiting.", err)
 	}
 
 	return nil
@@ -61,3 +59,20 @@ func Read(out interface{}, path string) error {
 func IsTestConfig() bool {
 	return *testConfig
 }
+
+// Loads the given YAML config string into the out interface
+func loadConfig(config interface{}, yamlString []byte) error {
+	if err := yaml.Unmarshal(yamlString, config); err != nil {
+		return fmt.Errorf("YAML config parsing failed: %v. Exiting.", err)
+	}
+
+	return nil
+}
+
+//func convertToJson(yamlConfig []byte) []byte {
+//
+//}
+//
+//func convertToYaml(jsonConfig []byte) []byte {
+//
+//}

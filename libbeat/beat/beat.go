@@ -115,7 +115,7 @@ func (beat *Beat) CommandLineSetup() {
 // into Beat.Config. It exists the processes in case of errors.
 func (b *Beat) LoadConfig() {
 
-	err := cfgfile.Read(&b.Config, "")
+	err := cfgfile.ReadConfigFile(&b.Config, "")
 	if err != nil {
 		// logging not yet initialized, so using fmt.Printf
 		fmt.Printf("Loading config file error: %v\n", err)
