@@ -11,13 +11,14 @@ import (
 )
 
 // Command line flags
-var configfile *string
 var testConfig *bool
 
 func init() {
 	// The default config cannot include the beat name as it is not initialised when this
 	// function is called, but see ChangeDefaultCfgfileFlag
-	configfile = flag.String("c", "/etc/beat/beat.yml", "Configuration file")
+	flag.String("c", "/etc/beat/beat.yml", "Configuration file")
+	// Makes it possible to start up the beat from a configuration string instead of a file which is on disk.
+	flag.String("config-string", "", "YAML configuration string")
 	testConfig = flag.Bool("configtest", false, "Test configuration and exit.")
 }
 
@@ -40,15 +41,22 @@ func ChangeDefaultCfgfileFlag(beatName string) error {
 
 // Read reads the configuration from a yaml file into the given interface structure.
 // In case path is not set this method reads from the default configuration file for the beat.
-func ReadConfigFile(out interface{}, path string) error {
+func Read(config interface{}, path string) error {
 
-	filecontent, err := ioutil.ReadFile(path)
+	var err error
+	var filecontent []byte
+	configStringFlag := flag.Lookup("config-string")
 
-	if err != nil {
-		return fmt.Errorf("Failed to read %s: %v. Exiting.", path, err)
+	if (configStringFlag != nil) {
+		filecontent = []byte(configStringFlag.Value.String())
+	} else {
+		filecontent, err = ioutil.ReadFile(path)
+		if err != nil {
+			return fmt.Errorf("Failed to read %s: %v. Exiting.", path, err)
+		}
 	}
 
-	err = loadConfig(out, filecontent)
+	err = loadConfig(config, filecontent)
 	if (err != nil) {
 		return fmt.Errorf("Configuration error: %v. Exiting.", err)
 	}
