@@ -7,6 +7,7 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/elastic/libbeat/logp"
 	"gopkg.in/yaml.v2"
 )
 
@@ -47,9 +48,11 @@ func Read(config interface{}, path string) error {
 	var filecontent []byte
 	configStringFlag := flag.Lookup("config-string")
 
-	if (configStringFlag != nil) {
+	if configStringFlag.Value.String() != "" {
+		logp.Info("Read configuration from config-string")
 		filecontent = []byte(configStringFlag.Value.String())
 	} else {
+		logp.Info("Read configuration from file: %s", path)
 		filecontent, err = ioutil.ReadFile(path)
 		if err != nil {
 			return fmt.Errorf("Failed to read %s: %v. Exiting.", path, err)
@@ -57,7 +60,7 @@ func Read(config interface{}, path string) error {
 	}
 
 	err = loadConfig(config, filecontent)
-	if (err != nil) {
+	if err != nil {
 		return fmt.Errorf("Configuration error: %v. Exiting.", err)
 	}
 
