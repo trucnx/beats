@@ -48,9 +48,12 @@ func Read(config interface{}, path string) error {
 	configStringFlag := flag.Lookup("config-string")
 
 	if configStringFlag.Value.String() != "" {
+		fmt.Println("config string")
 		//logp.Info("Read configuration from config-string")
 		filecontent = []byte(configStringFlag.Value.String())
 	} else {
+		fmt.Println("non config string")
+
 		//logp.Info("Read configuration from file: %s", path)
 		filecontent, err = ioutil.ReadFile(path)
 		if err != nil {
