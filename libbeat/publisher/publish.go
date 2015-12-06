@@ -81,8 +81,6 @@ type ShipperConfig struct {
 	Geoip                 common.Geoip
 }
 
-var Publisher PublisherType
-
 type Topology struct {
 	Name string `json:"name"`
 	Ip   string `json:"ip"`
@@ -169,7 +167,7 @@ func (publisher *PublisherType) Init(
 	beatName string,
 	configs map[string]outputs.MothershipConfig,
 	shipper ShipperConfig,
-) error {
+) (error) {
 	var err error
 	publisher.IgnoreOutgoing = shipper.Ignore_outgoing
 
@@ -221,8 +219,8 @@ func (publisher *PublisherType) Init(
 			logp.Info("Using %s to store the topology", plugin.Name)
 		}
 
-		Publisher.Output = outputers
-		Publisher.TopologyOutput = topoOutput
+		publisher.Output = outputers
+		publisher.TopologyOutput = topoOutput
 	}
 
 	if !publisher.disabled {

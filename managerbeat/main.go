@@ -4,7 +4,7 @@ import (
 beat "github.com/elastic/beats/libbeat/beat"
 	filebeat "github.com/elastic/beats/filebeat/beat"
 	topbeat "github.com/elastic/beats/topbeat/beat"
-	packetbeat "github.com/elastic/beats/packetbeat/beat"
+	//packetbeat "github.com/elastic/beats/packetbeat/beat"
 	"io/ioutil"
 	"time"
 	"fmt"
@@ -52,7 +52,7 @@ func StartBeats() {
 
 
 
-	func go() {
+	go func() {
 		filebeatconfig, err := ioutil.ReadFile("../filebeat/etc/filebeat.yml")
 		if err != nil {
 			fmt.Println(err)
@@ -62,7 +62,7 @@ func StartBeats() {
 
 
 
-	func go() {
+	/*func go() {
 
 		packetbeatconfig, err := ioutil.ReadFile("../packetbeat/etc/packetbeat.yml")
 		if err != nil {
@@ -70,9 +70,9 @@ func StartBeats() {
 		}
 
 		RunBeat("packetbeat", "1.0.0", packetbeat.New(), packetbeatconfig)
-	}()
+	}()*/
 
-	func go() {
+	go func() {
 
 		topbeatconfig, err := ioutil.ReadFile("../topbeat/etc/topbeat.yml")
 		if err != nil {
@@ -86,19 +86,19 @@ func StartBeats() {
 
 
 // Initiates and runs a new beat object
-func RunBeat(name string, version string, bt beat.Beater, config string) *beat.Beat {
+func RunBeat(name string, version string, bt beat.Beater, config []byte) *beat.Beat {
 	b := beat.NewBeat(name, version, bt)
 
 	// Additional command line args are used to overwrite config options
 	b.CommandLineSetup()
 
-	flag.Set("config-string", config)
+	flag.Set("config-string", string(config))
 
 	// Loads base config
 	b.LoadConfig()
 
 	// Configures beat
-	err = bt.Config(b)
+	err := bt.Config(b)
 	if err != nil {
 		logp.Critical("Config error: %v", err)
 		os.Exit(1)
