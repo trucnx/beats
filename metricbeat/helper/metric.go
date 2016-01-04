@@ -17,7 +17,7 @@ type MetricConfig struct {
 // This must be defined by each metric
 type Metric struct {
 	Name string
-	// Metric specific config
+	Enabled bool
 
 	// Generic Config existing in all metrics
 	BaseConfig MetricConfig
@@ -47,6 +47,7 @@ func NewMetric(name string, metricer Metricer, module *Module) *Metric {
 		Name:     name,
 		Metricer: metricer,
 		Module:   module,
+		Enabled: false,
 	}
 }
 
@@ -67,6 +68,12 @@ func (m *Metric) Register() {
 
 // RunMetric runs the given metric
 func (m *Metric) Run(b *beat.Beat) {
+
+	if !m.Enabled {
+		logp.Debug("helper", "Not starting metric %s as not enabled.", m.Name)
+		return
+	}
+
 
 	m.Metricer.Setup()
 	period, err := time.ParseDuration(m.BaseConfig.Period)

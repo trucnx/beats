@@ -48,12 +48,22 @@ func (mb *Metricbeat) Config(b *beat.Beat) error {
 	logp.Info("Setup base and raw configuration for Modules and Metrics")
 	// Apply the base configuration to each module and metric
 	for moduleName, module := range helper.Registry {
+		// Check if config for module exist
+		if _, ok := mb.MbConfig.Metricbeat.Modules[moduleName]; !ok {
+			continue;
+		}
 		module.BaseConfig = mb.MbConfig.Metricbeat.Modules[moduleName]
 		module.RawConfig = mb.ModulesConfig.Metricbeat.Modules[moduleName]
+		module.Enabled = true
 
 		for metricName, metric := range module.Metrics {
+
+			if _, ok := mb.MbConfig.Metricbeat.Modules[moduleName].Metrics[metricName]; !ok {
+				continue;
+			}
 			metric.BaseConfig = mb.MbConfig.Metricbeat.Modules[moduleName].Metrics[metricName]
 			metric.RawConfig = mb.MetricsConfig.Metricbeat.Modules[moduleName].Metrics[metricName]
+			metric.Enabled = true
 		}
 	}
 

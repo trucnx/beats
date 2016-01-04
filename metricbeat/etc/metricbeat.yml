@@ -1,9 +1,9 @@
 metricbeat:
   modules:
-    beat:
-      metrics:
-        beat:
-          period: 10s
+    #beat:
+    #  metrics:
+    #    beat:
+    #      period: 10s
     elasticsearch:
       hosts:
         - "http://localhost:9200"
@@ -16,12 +16,12 @@ metricbeat:
         stats:
           period: 10s
           mertric-specifcs: "12"
-    exec:
-      metrics:
-        exec:
-          commands:
-            - "ping 127.0.0.1"
-            - "echo 'test'"
+    #exec:
+    #  metrics:
+    #    exec:
+    #      commands:
+    #        - "ping 127.0.0.1"
+    #        - "echo 'test'"
     redis:
       metrics:
         info:

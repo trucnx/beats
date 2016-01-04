@@ -11,6 +11,7 @@ import (
 type Module struct {
 	Name    string
 	Moduler Moduler
+	Enabled bool
 
 	Metrics map[string]*Metric
 	// Generic config existing in all modules
@@ -29,6 +30,7 @@ func NewModule(name string, moduler Moduler) *Module {
 	return &Module{
 		Name:    name,
 		Moduler: moduler,
+		Enabled: false,
 		Metrics: map[string]*Metric{},
 	}
 }
@@ -70,13 +72,18 @@ func (m *Module) LoadConfig(config interface{}) {
 }
 
 // Starts the given module
-func (module *Module) Start(b *beat.Beat) {
+func (m *Module) Start(b *beat.Beat) {
 
-	logp.Info("Start Module: %v", module.Name)
+	if !m.Enabled {
+		logp.Debug("helper", "Not starting module %s as not enabled.", m.Name)
+		return
+	}
 
-	module.Moduler.Setup()
+	logp.Info("Start Module: %v", m.Name)
 
-	for _, metric := range module.Metrics {
+	m.Moduler.Setup()
+
+	for _, metric := range m.Metrics {
 		// TODO: If a metric panics, it should not affect other modules
 		go metric.Run(b)
 	}
