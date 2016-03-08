@@ -6,6 +6,7 @@ import (
 
 	"github.com/elastic/beats/metricbeat/helper"
 
+	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/urso/ucfg"
 )
@@ -22,6 +23,16 @@ func New() helper.Moduler {
 type Moduler struct{}
 
 func (b Moduler) Setup(cfg *ucfg.Config) error {
+
+	config := struct {
+		Username string `config:"username"`
+	}{}
+	if err := cfg.Unpack(&config); err != nil {
+		return err
+	}
+
+	fmt.Println("Username:" + config.Username)
+
 	// TODO: Ping available servers to check if available
 	return nil
 }
