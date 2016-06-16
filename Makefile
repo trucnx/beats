@@ -33,7 +33,7 @@ coverage-report:
 	go tool cover -html=./${COVERAGE_DIR}/full.cov -o ${COVERAGE_DIR}/full.html
 
 .PHONY: update
-update:
+update: changelog
 	$(foreach var,$(BEATS),$(MAKE) -C $(var) update || exit 1;)
 
 .PHONY: clean
@@ -70,3 +70,8 @@ beats-dashboards:
 .PHONY: docs
 docs:
 	sh libbeat/scripts/build_docs.sh ${PROJECTS}
+
+# Builds the changelog
+.PHONY: changelog
+changelog:
+	python ./scripts/changelog.py $(shell find . -name changelog.yml) > CHANGELOG2.asciidoc

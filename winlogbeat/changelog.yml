@@ -1,0 +1,13 @@
+project: winlogbeat
+changes:
+
+- type: release
+  version: 5.0.0-alpha3
+  parent: 5.0.0-alpha2
+  date: "2016-05-31"
+
+- type: breaking
+  description: All configuration settings under `shipper:` are moved to be top level configuration settings. I.e.
+                 `shipper.name:` becomes `name:` in the configuration file.
+  issue: 1570
+  target: user

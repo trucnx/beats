@@ -217,7 +217,7 @@ coverage-report:
 
 # Update expects the most recent version of libbeat in the GOPATH
 .PHONY: update
-update: python-env
+update: python-env changelog
 	# Update config
 	echo "Update config file"
 	-rm -f etc/${BEATNAME}.yml
@@ -301,3 +301,7 @@ install-home:
 .PHONY: create-packer
 create-packer:
 	python ${ES_BEATS}/libbeat/scripts/create_packer.py --es_beats=${ES_BEATS} --beat_path=${BEAT_DIR} --beat=${BEATNAME}
+
+.PHONY: create-packer
+changelog:
+	python ${ES_BEATS}/scripts/changelog.py changelog.yml > CHANGELOG.asciidoc

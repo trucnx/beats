@@ -1,0 +1,48 @@
+////
+This file is generated! See scripts/changelog.py
+////
+
+=== Unreleased
+
+
+*Breaking*
+
+- Stop following symlink. Symlinks are now ignored.
+  https://github.com/elastic/beats/issues/1686[1686]
+
+[[release-notes-5.0.0-alpha3]]
+=== Beats version 5.0.0-alpha3
+2016-05-31 https://github.com/elastic/beats/compare/v5.0.0-alpha2...v5.0.0-alpha3[View commits]
+
+*Breaking*
+
+- The state for files which fall under ignore_older is not stored anymore. This has the consequence, that if a file which fell under ignore_older is updated, the whole file will be crawled.
+
+
+*Added*
+
+- The registry format was changed to an array instead of dict. The migration to the new format will happen automatically at the first startup.  https://github.com/elastic/beats/issues/1703[1703]
+
+[[release-notes-5.0.0-alpha2]]
+=== Beats version 5.0.0-alpha2
+2016-05-03 https://github.com/elastic/beats/compare/v5.0.0-alpha1...v5.0.0-alpha2[View commits]
+
+*Breaking*
+
+- Default location for the registry file was changed to be `data/registry` from the binary directory,
+  rather than `.filebeat` in the current working directory. This affects installations for zip/tar.gz/source,
+  the location for DEB and RPM packages stays the same.
+  https://github.com/elastic/beats/issues/1373[1373]
+
+*Bug*
+
+- Improvements in registrar dealing with file rotation.
+  https://github.com/elastic/beats/issues/1281[1281]
+- Fix issue with JSON decoding where `@timestamp` or `type` keys with the wrong type could cause Filebeat
+  to crash.
+  https://github.com/elastic/beats/issues/1378[1378]
+- Fix issue with JSON decoding where values having `null` as values could crash Filebeat.
+  https://github.com/elastic/beats/issues/1466[1466]
+- Multiline reader normalizing newline to use `\n`.
+  https://github.com/elastic/beats/issues/1552[1552]
+

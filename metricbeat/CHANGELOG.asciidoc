@@ -1,0 +1,21 @@
+////
+This file is generated! See scripts/changelog.py
+////
+
+=== Unreleased
+
+
+*Bug*
+
+- Fix the CPU values returned for each core.
+  https://github.com/elastic/beats/issues/1863[1863]
+
+[[release-notes-5.0.0-alpha3]]
+=== Beats version 5.0.0-alpha3
+2016-05-31 https://github.com/elastic/beats/compare/v5.0.0-alpha2...v5.0.0-alpha3[View commits]
+
+*Added*
+
+- First public release, containing the following modules: apache, mysql, nginx, redis, system, and zookeeper.
+
+

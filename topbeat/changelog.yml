@@ -1,0 +1,7 @@
+project: topbeat
+changes:
+
+- type: release
+  version: 5.0.0-alpha2
+  parent: 5.0.0-alpha1
+  date: "2016-05-03"

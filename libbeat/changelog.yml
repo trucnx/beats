@@ -1,0 +1,171 @@
+project: libbeat
+changes:
+
+- type: bug
+  description: >
+    Reset backoff factor on partial ACK.
+  issue: 1803
+  target: user
+
+- type: bug
+  description: >
+    Fix beats load balancer deadlock if max_retries: -1 or publish_async is enabled in filebeat.
+  issue: 1829
+  target: user
+
+
+- type: release
+  version: 5.0.0-alpha3
+  parent: 5.0.0-alpha2
+  date: "2016-05-31"
+
+- type: breaking
+  description: >
+    All configuration settings under `shipper:` are moved to be top level configuration settings. I.e.
+      `shipper.name:` becomes `name:` in the configuration file.
+  issue: 1570
+  target: user
+
+- type: added
+  description: >
+    Add conditions to generic filtering.
+  issue: 1623
+  target: user
+
+- type: deprecated
+  description: >
+    The support for doing GeoIP lookups is deprecated and will be removed in version 6.0.
+  issue: 1601
+  target: user
+
+
+- type: release
+  version: 5.0.0-alpha2
+  parent: 5.0.0-alpha1
+  date: "2016-05-03"
+
+- type: breaking
+  description: >
+    On DEB/RPM installations, the binary files are now found under `/usr/share/{{beat_name}}/bin`, not in `/usr/bin`.
+  issue: 1601
+  target: user
+
+- type: breaking
+  description: >
+     The logs are written by default to self rotating files, instead of syslog.
+  issue: 1371
+  target: user
+
+- type: breaking
+  description: >
+    Remove deprecated `host` option from elasticsearch, logstash and redis outputs.
+  issue: 1474
+  target: user
+
+- type: bug
+  description: >
+    Drain response buffers when pipelining is used by Redis output.
+  issue: 1353
+  target: user
+
+- type: bug
+  description: >
+    Unterminated environment variable expressions in config files will now cause an error.
+  issue: 1389
+  target: user
+
+- type: bug
+  description: >
+    Fix issue with the automatic template loading when Elasticsearch is not available on Beat start.
+  issue: 1321
+  target: user
+
+- type: bug
+  description: >
+    Fix bug affecting -cpuprofile, -memprofile, and -httpprof CLI flags.
+  issue: 1415
+  target: user
+
+- type: bug
+  description: >
+    Fix race when multiple outputs access the same event with logstash output manipulating event.
+  issue: 1410
+  target: user
+
+- type: bug
+  description: >
+    Seed random number generator using crypto.rand package.
+  issue: 1503
+  target: user
+
+- type: bug
+  description: >
+    Fix beats hanging in -configtest
+  issue: 1213
+  target: user
+
+- type: bug
+  description: >
+    Fix kafka log message output
+  issue: 1516
+  target: user
+
+- type: added
+  description: >
+    Add support for TLS to Redis output.
+  issue: 1353
+  target: user
+
+- type: added
+  description: >
+    Add SOCKS5 proxy support to Redis output.
+  issue: 1353
+  target: user
+
+- type: added
+  description: >
+    Failover and load balancing support in redis output.
+  issue: 1353
+  target: user
+
+- type: added
+  description: >
+    Multiple-worker per host support for redis output.
+  issue: 1353
+  target: user
+
+- type: added
+  description: >
+    Added ability to escape `${x}` in config files to avoid environment variable expansion.
+  issue: 1389
+  target: user
+
+- type: added
+  description: >
+    Configuration options and CLI flags for setting the home, data and config paths.
+  issue: 1373
+  target: user
+
+- type: added
+  description: >
+    Configuration options and CLI flags for setting the default logs path.
+  issue: 1437
+  target: user
+
+- type: added
+  description: >
+    Update to Go 1.6.2
+  issue: 1447
+  target: user
+
+- type: added
+  description: >
+    Add Elasticsearch template files compatible with Elasticsearch 2.x.
+  issue: 1501
+  target: user
+
+- type: added
+  description: >
+    Add scripts for managing the dashboards of a single Beat.
+  issue: 1359
+  target: user

@@ -1,0 +1,32 @@
+////
+This file is generated! See scripts/changelog.py
+////
+
+=== Unreleased
+
+
+*Bug*
+
+- Add missing nil-check to memcached GapInStream handler.
+  https://github.com/elastic/beats/issues/1162[1162]
+
+[[release-notes-5.0.0-alpha3]]
+=== Beats version 5.0.0-alpha3
+2016-05-31 https://github.com/elastic/beats/compare/v5.0.0-alpha2...v5.0.0-alpha3[View commits]
+
+[[release-notes-5.0.0-alpha2]]
+=== Beats version 5.0.0-alpha2
+2016-05-03 https://github.com/elastic/beats/compare/v5.0.0-alpha1...v5.0.0-alpha2[View commits]
+
+*Breaking*
+
+- Configuration of redis topology support changed.
+  https://github.com/elastic/beats/issues/1353[1353]
+- Move all Packetbeat configuration options under the packetbeat namespace.
+  https://github.com/elastic/beats/issues/1417[1417]
+
+*Added*
+
+- Fix compile issues for OpenBSD.
+  https://github.com/elastic/beats/issues/1347[1347]
+

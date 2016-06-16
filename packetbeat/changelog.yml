@@ -1,0 +1,36 @@
+project: packetbeat
+changes:
+
+- type: bug
+  description: >
+    Add missing nil-check to memcached GapInStream handler.
+  issue: 1162
+  target: user
+
+- type: release
+  version: 5.0.0-alpha3
+  parent: 5.0.0-alpha2
+  date: "2016-05-31"
+
+- type: release
+  version: 5.0.0-alpha2
+  parent: 5.0.0-alpha1
+  date: "2016-05-03"
+
+- type: breaking
+  description: >
+    Configuration of redis topology support changed.
+  issue: 1353
+  target: user
+
+- type: breaking
+  description: >
+    Move all Packetbeat configuration options under the packetbeat namespace.
+  issue: 1417
+  target: user
+
+- type: added
+  description: >
+    Fix compile issues for OpenBSD.
+  issue: 1347
+  target: user

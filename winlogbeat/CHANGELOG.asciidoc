@@ -1,0 +1,12 @@
+////
+This file is generated! See scripts/changelog.py
+////
+
+[[release-notes-5.0.0-alpha3]]
+=== Beats version 5.0.0-alpha3
+2016-05-31 https://github.com/elastic/beats/compare/v5.0.0-alpha2...v5.0.0-alpha3[View commits]
+
+*Breaking*
+
+- All configuration settings under `shipper:` are moved to be top level configuration settings. I.e. `shipper.name:` becomes `name:` in the configuration file.  https://github.com/elastic/beats/issues/1570[1570]
+

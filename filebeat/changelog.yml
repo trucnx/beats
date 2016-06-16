@@ -1,0 +1,56 @@
+project: filebeat
+changes:
+
+- type: breaking
+  description: >
+    Stop following symlink. Symlinks are now ignored.
+  issue: 1686
+
+- type: release
+  version: 5.0.0-alpha3
+  parent: 5.0.0-alpha2
+  date: "2016-05-31"
+
+- type: breaking
+  description: >
+    The state for files which fall under ignore_older is not stored anymore. This has the consequence, that
+    if a file which fell under ignore_older is updated, the whole file will be crawled.
+
+- type: added
+  issue: 1703
+  description: The registry format was changed to an array instead of dict. The migration to the new format will happen automatically at the first startup.
+
+
+- type: release
+  version: 5.0.0-alpha2
+  parent: 5.0.0-alpha1
+  date: "2016-05-03"
+
+- type: breaking
+  description: >
+    Default location for the registry file was changed to be `data/registry` from the binary directory,
+      rather than `.filebeat` in the current working directory. This affects installations for zip/tar.gz/source,
+      the location for DEB and RPM packages stays the same.
+  issue: 1373
+
+- type: bug
+  description: >
+    Improvements in registrar dealing with file rotation.
+  issue: 1281
+
+- type: bug
+  description: >
+    Fix issue with JSON decoding where `@timestamp` or `type` keys with the wrong type could cause Filebeat
+      to crash.
+  issue: 1378
+
+- type: bug
+  description: >
+    Fix issue with JSON decoding where values having `null` as values could crash Filebeat.
+  issue: 1466
+
+- type: bug
+  description: >
+    Multiline reader normalizing newline to use `\n`.
+  issue: 1552
+
