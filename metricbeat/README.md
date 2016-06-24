@@ -21,3 +21,6 @@ Best is to start your own module as its own beat first (see below use it as a li
 
 ## Use it as library
 Metricbeat can also be used as a library so you can implement your own module on top of metricbeat and building your own beat based on it, withouth getting your module into the main repository. This allows to make use of the schedule and interfaces of Metricbeat. A developer guide and how to do this will follow soon.
+
+
+asdfsf

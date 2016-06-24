@@ -4,3 +4,7 @@ CHANGELOG.asciidoc  merge=union
 # Keep these file types as CRLF (Windows).
 *.bat    text eol=crlf
 *.cmd    text eol=crlf
+
+
+# No diff for the following files
+README.md -diff
