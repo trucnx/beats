@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"regexp"
 	"time"
+
+	"github.com/elastic/beats/libbeat/common"
 )
 
 // MultiLine reader combining multiple line events into one multi-line event.
@@ -211,7 +213,7 @@ func (mlr *Multiline) load(m Message) {
 	mlr.addLine(m)
 	// Timestamp of first message is taken as overall timestamp
 	mlr.message.Ts = m.Ts
-	mlr.message.Fields = m.Fields
+	mlr.message.AddFields(m.Fields)
 }
 
 // clearBuffer resets the reader buffer variables
@@ -225,6 +227,8 @@ func (mlr *Multiline) clear() {
 // finalize writes the existing content into the returned message and resets all reader variables.
 func (mlr *Multiline) finalize() Message {
 
+	lines := common.MapStr{"lines": mlr.numLines}
+	mlr.message.AddFields(common.MapStr{"multiline": lines})
 	// Copy message from existing content
 	msg := mlr.message
 	mlr.clear()
@@ -265,6 +269,7 @@ func (mlr *Multiline) addLine(m Message) {
 
 	mlr.last = m.Content
 	mlr.message.Bytes += m.Bytes
+	mlr.message.AddFields(m.Fields)
 }
 
 // resetState sets state of the reader to readFirst
