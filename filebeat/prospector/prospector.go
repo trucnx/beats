@@ -164,6 +164,12 @@ func (p *Prospector) updateState(event *input.Event) error {
 		event.State.TTL = p.config.CleanInactive
 	}
 
+	// Add additional prospector meta data to the event
+	event.EventMetadata = p.config.EventMetadata
+	event.InputType = p.config.InputType
+	event.DocumentType = p.config.DocumentType
+	event.JSONConfig = p.config.JSON
+
 	ok := p.outlet.OnEvent(event)
 	if !ok {
 		logp.Info("Prospector outlet closed")

@@ -6,10 +6,13 @@ import (
 	"time"
 
 	cfg "github.com/elastic/beats/filebeat/config"
+	"github.com/elastic/beats/filebeat/harvester/reader"
+	"github.com/elastic/beats/libbeat/common"
 )
 
 var (
 	defaultConfig = prospectorConfig{
+		DocumentType:   "log",
 		IgnoreOlder:    0,
 		ScanFrequency:  10 * time.Second,
 		InputType:      cfg.DefaultInputType,
@@ -21,15 +24,18 @@ var (
 )
 
 type prospectorConfig struct {
-	ExcludeFiles   []*regexp.Regexp `config:"exclude_files"`
-	IgnoreOlder    time.Duration    `config:"ignore_older"`
-	Paths          []string         `config:"paths"`
-	ScanFrequency  time.Duration    `config:"scan_frequency" validate:"min=0,nonzero"`
-	InputType      string           `config:"input_type"`
-	CleanInactive  time.Duration    `config:"clean_inactive" validate:"min=0"`
-	CleanRemoved   bool             `config:"clean_removed"`
-	HarvesterLimit uint64           `config:"harvester_limit" validate:"min=0"`
-	Symlinks       bool             `config:"symlinks"`
+	common.EventMetadata `config:",inline"` // Fields and tags to add to events.
+	DocumentType         string             `config:"document_type"`
+	ExcludeFiles         []*regexp.Regexp   `config:"exclude_files"`
+	IgnoreOlder          time.Duration      `config:"ignore_older"`
+	Paths                []string           `config:"paths"`
+	ScanFrequency        time.Duration      `config:"scan_frequency" validate:"min=0,nonzero"`
+	InputType            string             `config:"input_type"`
+	CleanInactive        time.Duration      `config:"clean_inactive" validate:"min=0"`
+	CleanRemoved         bool               `config:"clean_removed"`
+	HarvesterLimit       uint64             `config:"harvester_limit" validate:"min=0"`
+	Symlinks             bool               `config:"symlinks"`
+	JSON                 *reader.JSONConfig `config:"json"`
 }
 
 func (config *prospectorConfig) Validate() error {

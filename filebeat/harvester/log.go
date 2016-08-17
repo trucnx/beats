@@ -109,10 +109,6 @@ func (h *Harvester) Harvest(r reader.Reader) {
 			event.Bytes = message.Bytes
 			event.Text = &text
 			event.JSONFields = message.Fields
-			event.EventMetadata = h.config.EventMetadata
-			event.InputType = h.config.InputType
-			event.DocumentType = h.config.DocumentType
-			event.JSONConfig = h.config.JSON
 		}
 
 		// Always send event to update state, also if lines was skipped
