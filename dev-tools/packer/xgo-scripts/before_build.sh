@@ -42,6 +42,10 @@ if [ -n "BUILDID" ]; then
     echo "$BUILDID" > $PREFIX/homedir/.build_hash.txt
 fi
 
+# Generate and copy README.md into homedir
+go get -u github.com/tsg/gotpl
+/go/bin/gotpl ${LIBBEAT_PATH}/../dev-tools/packer/readme.md.j2 < ${PREFIX}/package.yml > ${PREFIX}/homedir/README.md
+
 # Copy template
 cp $BEATNAME.template.json $PREFIX/$BEATNAME.template.json
 cp $BEATNAME.template-es2x.json $PREFIX/$BEATNAME.template-es2x.json
