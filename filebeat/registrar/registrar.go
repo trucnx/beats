@@ -13,18 +13,21 @@ import (
 	cfg "github.com/elastic/beats/filebeat/config"
 	. "github.com/elastic/beats/filebeat/input"
 	"github.com/elastic/beats/filebeat/input/file"
-	"github.com/elastic/beats/filebeat/publisher"
 	"github.com/elastic/beats/libbeat/logp"
 	"github.com/elastic/beats/libbeat/paths"
 )
 
 type Registrar struct {
-	Channel      chan []*Event
-	out          publisher.SuccessLogger
+	input        chan []*Event
+	log          Logger
 	done         chan struct{}
 	registryFile string       // Path to the Registry File
 	states       *file.States // Map with all file paths inside and the corresponding state
 	wg           sync.WaitGroup
+}
+
+type Logger interface {
+	Log(events []*Event) bool
 }
 
 var (
@@ -34,14 +37,14 @@ var (
 	registryWrites = expvar.NewInt("registrar.writes")
 )
 
-func New(registryFile string, out publisher.SuccessLogger) (*Registrar, error) {
+func New(registryFile string, log Logger) (*Registrar, error) {
 
 	r := &Registrar{
 		registryFile: registryFile,
 		done:         make(chan struct{}),
 		states:       file.NewStates(),
-		Channel:      make(chan []*Event, 1),
-		out:          out,
+		input:        make(chan []*Event, 1),
+		log:          log,
 		wg:           sync.WaitGroup{},
 	}
 	err := r.Init()
@@ -195,7 +198,7 @@ func (r *Registrar) Run() {
 		case <-r.done:
 			logp.Info("Ending Registrar")
 			return
-		case events = <-r.Channel:
+		case events = <-r.input:
 		}
 
 		r.processEventStates(events)
@@ -212,8 +215,8 @@ func (r *Registrar) Run() {
 			logp.Err("Writing of registry returned error: %v. Continuing...", err)
 		}
 
-		if r.out != nil {
-			r.out.Published(events)
+		if r.log != nil {
+			r.log.Log(events)
 		}
 	}
 }
@@ -273,4 +276,9 @@ func (r *Registrar) writeRegistry() error {
 	statesCurrent.Set(int64(len(states)))
 
 	return err
+}
+
+// GetInput returns the registrar input channel
+func (r *Registrar) GetInput() chan []*Event {
+	return r.input
 }
