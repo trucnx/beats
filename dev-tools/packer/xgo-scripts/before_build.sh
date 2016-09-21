@@ -44,6 +44,10 @@ fi
 
 # Generate and copy README.md into homedir
 go get -u github.com/tsg/gotpl
+# Append doc versions to package.yml
+cat ${LIBBEAT_PATH}/docs/version.asciidoc >> ${PREFIX}/package.yml
+# Make varialbe naming of doc-branch compatible with gotpl
+sed -i -e 's/:doc-branch/doc_branch/g' ${PREFIX}/package.yml
 /go/bin/gotpl ${LIBBEAT_PATH}/../dev-tools/packer/readme.md.j2 < ${PREFIX}/package.yml > ${PREFIX}/homedir/README.md
 
 # Copy template
