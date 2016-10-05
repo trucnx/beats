@@ -1,6 +1,6 @@
 # Metricbeat
 
-Metricbeat fetches a set of metrics on a predefined interval from the operating system and services such as Apache web server, Redis, and more and ships them to elasticsearch or logstash.
+Metricbeat fetches a set of metrics on a predefined interval from the operating system and services such as Apache web server, Redis, and more and ships them to Elasticsearch or Logstash.
 
 ## Getting started
 
