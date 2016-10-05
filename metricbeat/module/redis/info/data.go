@@ -37,8 +37,10 @@ var (
 		"persistence": s.Object{
 			"loading": c.Bool("loading"),
 			"rdb": s.Object{
-				"last_save.changes_since": c.Int("rdb_changes_since_last_save"),
-				"last_save.time":          c.Int("rdb_last_save_time"),
+				"last_save": common.MapStr{
+					"changes_since": c.Int("rdb_changes_since_last_save"),
+					"time":          c.Int("rdb_last_save_time"),
+				},
 				"bgsave": s.Object{
 					"last_status":      c.Str("rdb_last_bgsave_status"),
 					"in_progress":      c.Bool("rdb_bgsave_in_progress"),
@@ -54,8 +56,12 @@ var (
 					"last_time.sec":    c.Int("aof_last_rewrite_time_sec"),
 					"current_time.sec": c.Int("aof_current_rewrite_time_sec"),
 				},
-				"bgrewrite.last_status": c.Str("aof_last_bgrewrite_status"),
-				"write.last_status":     c.Str("aof_last_write_status"),
+				"bgrewrite": common.MapStr{
+					"last_status": c.Str("aof_last_bgrewrite_status"),
+				},
+				"write": common.MapStr{
+					"last_status": c.Str("aof_last_write_status"),
+				},
 			},
 		},
 		"replication": s.Object{
@@ -93,17 +99,25 @@ var (
 				"rejected": c.Int("rejected_connections"),
 			},
 			"commands_processed": c.Int("total_commands_processed"),
-			"net.input.bytes":    c.Int("total_net_input_bytes"),
-			"net.output.bytes":   c.Int("total_net_output_bytes"),
+			"net": common.MapStr{
+				"input": common.MapStr{
+					"bytes": c.Int("total_net_input_bytes"),
+				},
+				"output": common.MapStr{
+					"bytes": c.Int("total_net_output_bytes"),
+				},
+			},
 			"instantaneous": s.Object{
 				"ops_per_sec": c.Int("instantaneous_ops_per_sec"),
 				"input_kbps":  c.Float("instantaneous_input_kbps"),
 				"output_kbps": c.Float("instantaneous_output_kbps"),
 			},
 			"sync": s.Object{
-				"full":        c.Int("sync_full"),
-				"partial.ok":  c.Int("sync_partial_ok"),
-				"partial.err": c.Int("sync_partial_err"),
+				"full": c.Int("sync_full"),
+				"partial": common.MapStr{
+					"ok":  c.Int("sync_partial_ok"),
+					"err": c.Int("sync_partial_err"),
+				},
 			},
 			"keys": s.Object{
 				"expired": c.Int("expired_keys"),
@@ -113,8 +127,10 @@ var (
 				"hits":   c.Int("keyspace_hits"),
 				"misses": c.Int("keyspace_misses"),
 			},
-			"pubsub.channels":        c.Int("pubsub_channels"),
-			"pubsub.patterns":        c.Int("pubsub_patterns"),
+			"pubsub": common.MapStr{
+				"channels": c.Int("pubsub_channels"),
+				"patterns": c.Int("pubsub_patterns"),
+			},
 			"latest_fork_usec":       c.Int("latest_fork_usec"),
 			"migrate_cached_sockets": c.Int("migrate_cached_sockets"),
 		},
